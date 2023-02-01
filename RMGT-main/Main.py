@@ -3,7 +3,7 @@ import torch as t
 import Utils.TimeLogger as logger
 from Utils.TimeLogger import log
 from Params import args
-from Model_right import Model, RandomMaskSubgraphs, LocalGraph, GTLayer
+from Model import Model, RandomMaskSubgraphs, LocalGraph, GTLayer
 from DataHandler import DataHandler
 import numpy as np
 import pickle
@@ -48,7 +48,6 @@ class Coach:
             stloc = 0
             log('Model Initialized')
         bestRes = None
-        result = []
         for ep in range(stloc, args.epoch):
             tstFlag = (ep % args.tstEpoch == 0)
             reses = self.trainEpoch()
@@ -61,8 +60,6 @@ class Coach:
                 bestRes = reses if bestRes is None or reses['Recall'] > bestRes['Recall'] else bestRes
             print()
         reses = self.testEpoch()
-        result.append(reses)
-        torch.save(result, "Saeg_result.pkl")
         log(self.makePrint('Test', args.epoch, reses, True))
         log(self.makePrint('Best Result', args.epoch, bestRes, True))
         self.saveHistory()
@@ -97,15 +94,14 @@ class Coach:
             posEmbeds = itmEmbeds[poss]
             negEmbeds = itmEmbeds[negs]
 
-            # bprLoss = (-t.sum(ancEmbeds * posEmbeds, dim=-1)).mean()
+
             usrEmbeds2 = subLst[:args.user]
             itmEmbeds2 = subLst[args.user:]
             ancEmbeds2 = usrEmbeds2[ancs]
             posEmbeds2 = itmEmbeds2[poss]
 
             bprLoss = (-t.sum(ancEmbeds * posEmbeds, dim=-1)).mean()
-            # bprLoss2 = (-t.sum(ancEmbeds2 * posEmbeds2, dim=-1)).mean()
-            #
+
             scoreDiff = pairPredict(ancEmbeds2, posEmbeds2, negEmbeds)
             bprLoss2 = - (scoreDiff).sigmoid().log().sum() / args.batch
 
@@ -143,7 +139,7 @@ class Coach:
             trnMask = trnMask.cuda()
             usrEmbeds, itmEmbeds, _, _ = self.model(self.handler, True, self.handler.torchBiAdj, self.handler.torchBiAdj,
                                                           self.handler.torchBiAdj, None
-                                                          )  # 之前测试一直没用decoderadj做test
+                                                          )
 
             allPreds = t.mm(usrEmbeds[usr], t.transpose(itmEmbeds, 1, 0)) * (1 - trnMask) - trnMask * 1e8
             _, topLocs = t.topk(allPreds, args.topk)

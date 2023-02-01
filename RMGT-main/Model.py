@@ -70,7 +70,7 @@ class PNNLayer(nn.Module):
         super(PNNLayer, self).__init__()
         self.linear_out_position = nn.Linear(args.latdim, 1)
         self.linear_out = nn.Linear(args.latdim, args.latdim)
-        # self.linear_hidden = nn.Linear(2 * args.latdim, 1)
+
         self.linear_hidden = nn.Linear(2 * args.latdim, args.latdim)
         self.act = nn.ReLU()
 
@@ -80,9 +80,9 @@ class PNNLayer(nn.Module):
         dists_array = t.tensor(handler.dists_array, dtype=t.float32).to("cuda:0")
         set_ids_emb = embeds[anchor_set_id]
         set_ids_reshape = set_ids_emb.repeat(dists_array.shape[1], 1).reshape(-1, len(set_ids_emb),
-                                                                              args.latdim)  # 69534.256.32
+                                                                              args.latdim)
         dists_array_emb = dists_array.T.unsqueeze(2)  #
-        messages = set_ids_reshape * dists_array_emb  # 69000*256*32
+        messages = set_ids_reshape * dists_array_emb  #
 
         self_feature = embeds.repeat(args.anchor_set_num, 1).reshape(-1, args.anchor_set_num, args.latdim)
         messages = torch.cat((messages, self_feature), dim=-1)
@@ -116,7 +116,7 @@ class GTLayer(nn.Module):
         vEmbeds = (colEmbeds @ self.vTrans).view([-1, args.head, args.latdim // args.head])
 
         att = t.einsum('ehd, ehd -> eh', qEmbeds, kEmbeds)
-        att = t.clamp(att, -10.0, 10.0)  # 加进到这个区间
+        att = t.clamp(att, -10.0, 10.0)
         expAtt = t.exp(att)
         tem = t.zeros([adj.shape[0], args.head]).cuda()
         attNorm = (tem.index_add_(0, rows, expAtt))[rows]
@@ -129,7 +129,7 @@ class GTLayer(nn.Module):
 
 
 class LocalGraph(nn.Module):
-    # 最终返回一个边mask的概率
+
     def __init__(self, gtLayer):
         super(LocalGraph, self).__init__()
         self.gt_layer = gtLayer
@@ -201,7 +201,7 @@ class LocalGraph(nn.Module):
         embeds = self.pnn(handler, embeds)
         rows = adj._indices()[0, :]
         cols = adj._indices()[1, :]
-        # print("len(adj)===>", len(rows))
+
 
         tmp_rows = np.random.choice(rows.cpu(), size=[int(len(rows) * args.addRate)])
         tmp_cols = np.random.choice(cols.cpu(), size=[int(len(cols) * args.addRate)])
@@ -250,11 +250,11 @@ class RandomMaskSubgraphs(nn.Module):
         users_up = adj._indices()[0, :]
         items_up = adj._indices()[1, :]
         if flag:
-            att_edge = (np.array(att_edge.detach().cpu() + 0.001))  # 好像反了
+            att_edge = (np.array(att_edge.detach().cpu() + 0.001))
         else:
             att_f = att_edge
             att_f[att_f > 3] = 3
-            att_edge = 1.0 / (np.exp(np.array(att_f.detach().cpu() + 1E-8)))  # 基于mlp可以去除
+            att_edge = 1.0 / (np.exp(np.array(att_f.detach().cpu() + 1E-8)))
         att_f = att_edge / att_edge.sum()
         keep_index = np.random.choice(np.arange(len(users_up.cpu())), int(len(users_up.cpu()) * args.sub),
                                       replace=False, p=att_f)
@@ -367,7 +367,7 @@ class RandomMaskSubgraphs(nn.Module):
         newCols = hashVal % (args.user + args.item)
         newRows = ((hashVal - newCols) / (args.user + args.item)).long()
 
-        # decoderAdj并没有用到normalize
+
         decoderAdj = t.sparse.FloatTensor(t.stack([newRows, newCols], dim=0), t.ones_like(newRows).cuda().float(),
                                           adj.shape)
 

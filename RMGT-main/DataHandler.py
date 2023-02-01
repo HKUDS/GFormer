@@ -24,7 +24,7 @@ class DataHandler:
         self.trnfile = predir + 'trnMat.pkl'
         self.tstfile = predir + 'tstMat.pkl'
 
-    def single_source_shortest_path_length_range(self, graph, node_range, cutoff):  # 最短路径算法
+    def single_source_shortest_path_length_range(self, graph, node_range, cutoff):
         dists_dict = {}
         for node in node_range:
             dists_dict[node] = nx.single_source_shortest_path_length(graph, node, cutoff=None)
@@ -52,10 +52,10 @@ class DataHandler:
         for i, node_i in enumerate(annchorset_id):
             shortest_dist = dicts_dict[node_i]
             for j, node_j in enumerate(graph.nodes()):
-                dist = shortest_dist.get(node_j, -1)  # 如果无值返回-1
+                dist = shortest_dist.get(node_j, -1)
                 if dist != -1:
                     dists_array[i, j] = 1 / (dist + 1)
-        self.dists_array = dists_array # 256*69534
+        self.dists_array = dists_array
         self.anchorset_id = annchorset_id #
 
     def preSelect_anchor_set(self):
