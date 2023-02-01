@@ -76,7 +76,7 @@ class DataHandler:
         dInvSqrtMat = sp.diags(dInvSqrt)
         return mat.dot(dInvSqrtMat).transpose().dot(dInvSqrtMat).tocoo()
 
-    def makeTorchAdj(self, trainMat, addNoise=0.0):
+    def makeTorchAdj(self, trainMat):
         # addRate
 
         a = sp.csr_matrix((args.user, args.user))
@@ -103,7 +103,7 @@ class DataHandler:
         tstMat = self.loadOneFile(self.tstfile)
         args.user, args.item = trnMat.shape
 
-        self.torchBiAdj = self.makeTorchAdj(trnMat, args.addNoise)
+        self.torchBiAdj = self.makeTorchAdj(trnMat)
         self.allOneAdj = self.makeAllOne(self.torchBiAdj)
         trnData = TrnData(trnMat)
         self.trnLoader = dataloader.DataLoader(trnData, batch_size=args.batch, shuffle=True, num_workers=0)

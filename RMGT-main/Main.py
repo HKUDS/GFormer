@@ -56,7 +56,6 @@ class Coach:
                 reses = self.testEpoch()
                 log(self.makePrint('Test', ep, reses, tstFlag))
                 self.saveHistory()
-                result.append(reses)
                 bestRes = reses if bestRes is None or reses['Recall'] > bestRes['Recall'] else bestRes
             print()
         reses = self.testEpoch()
