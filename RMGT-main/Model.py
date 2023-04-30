@@ -29,9 +29,9 @@ class Model(nn.Module):
         embeds = t.cat([self.uEmbeds, self.iEmbeds], axis=0)
         embedsLst = [embeds]
         emb, _ = self.gtLayers(cmp, embeds)
-        cList = [embeds, 0.1*emb]
+        cList = [embeds, args.gtw*emb]
         emb, _ = self.gtLayers(sub, embeds)
-        subList = [embeds, 0.1*emb]
+        subList = [embeds, args.gtw*emb]
 
         for i, gcn in enumerate(self.gcnLayers):
             embeds = gcn(encoderAdj, embedsLst[-1])

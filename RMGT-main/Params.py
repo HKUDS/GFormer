@@ -4,6 +4,7 @@ def ParseArgs():
 	parser = argparse.ArgumentParser(description='Model Params')
 	parser.add_argument('--lr', default=1e-3, type=float, help='learning rate')
 	parser.add_argument('--ext', default=0.5, type=float, help='learning rate')
+	parser.add_argument('--gtw', default=0.1, type=float, help='learning rate')
 	parser.add_argument('--sub', default=0.1, type=float, help='sub maxtrix')
 	parser.add_argument('--ctra', default=0.001, type=float, help='sub maxtrix')
 	parser.add_argument('--b2', default=1, type=float, help='learning rate')
