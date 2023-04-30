@@ -136,8 +136,7 @@ class Coach:
             usr = usr.long().cuda()
             trnMask = trnMask.cuda()
             usrEmbeds, itmEmbeds, _, _ = self.model(self.handler, True, self.handler.torchBiAdj, self.handler.torchBiAdj,
-                                                          self.handler.torchBiAdj, None
-                                                          )
+                                                          self.handler.torchBiAdj)
 
             allPreds = t.mm(usrEmbeds[usr], t.transpose(itmEmbeds, 1, 0)) * (1 - trnMask) - trnMask * 1e8
             _, topLocs = t.topk(allPreds, args.topk)
