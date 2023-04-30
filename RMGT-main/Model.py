@@ -1,8 +1,6 @@
 import torch
 import torch as t
-from torch import nn, softmax
-from torch.nn import Sequential, Linear, ReLU
-
+from torch import nn
 from Params import args
 import scipy.sparse as sp
 import numpy as np
@@ -12,7 +10,6 @@ import random
 
 init = nn.init.xavier_uniform_
 uniformInit = nn.init.uniform
-
 
 class Model(nn.Module):
     def __init__(self, gtLayer):
@@ -32,9 +29,9 @@ class Model(nn.Module):
         embeds = t.cat([self.uEmbeds, self.iEmbeds], axis=0)
         embedsLst = [embeds]
         emb, _ = self.gtLayers(cmp, embeds)
-        cList = [embeds, args.gtw*emb]
+        cList = [embeds, 0.1*emb]
         emb, _ = self.gtLayers(sub, embeds)
-        subList = [embeds, args.gtw*emb]
+        subList = [embeds, 0.1*emb]
 
         for i, gcn in enumerate(self.gcnLayers):
             embeds = gcn(encoderAdj, embedsLst[-1])
@@ -70,7 +67,6 @@ class PNNLayer(nn.Module):
         super(PNNLayer, self).__init__()
         self.linear_out_position = nn.Linear(args.latdim, 1)
         self.linear_out = nn.Linear(args.latdim, args.latdim)
-
         self.linear_hidden = nn.Linear(2 * args.latdim, args.latdim)
         self.act = nn.ReLU()
 
@@ -80,17 +76,17 @@ class PNNLayer(nn.Module):
         dists_array = t.tensor(handler.dists_array, dtype=t.float32).to("cuda:0")
         set_ids_emb = embeds[anchor_set_id]
         set_ids_reshape = set_ids_emb.repeat(dists_array.shape[1], 1).reshape(-1, len(set_ids_emb),
-                                                                              args.latdim)
+                                                                              args.latdim)  # 69534.256.32
         dists_array_emb = dists_array.T.unsqueeze(2)  #
-        messages = set_ids_reshape * dists_array_emb  #
+        messages = set_ids_reshape * dists_array_emb  # 69000*256*32
 
         self_feature = embeds.repeat(args.anchor_set_num, 1).reshape(-1, args.anchor_set_num, args.latdim)
         messages = torch.cat((messages, self_feature), dim=-1)
         messages = self.linear_hidden(messages).squeeze()
 
-        outposition = t.mean(messages, dim=1)
+        outposition1 = t.mean(messages, dim=1)
 
-        return outposition
+        return outposition1
 
 
 class GTLayer(nn.Module):
@@ -120,7 +116,7 @@ class GTLayer(nn.Module):
         expAtt = t.exp(att)
         tem = t.zeros([adj.shape[0], args.head]).cuda()
         attNorm = (tem.index_add_(0, rows, expAtt))[rows]
-        att = expAtt / (attNorm + 1e-8)  # eh
+        att = expAtt / (attNorm + 1e-8)
 
         resEmbeds = t.einsum('eh, ehd -> ehd', att, vEmbeds).view([-1, args.latdim])
         tem = t.zeros([adj.shape[0], args.latdim]).cuda()
@@ -164,6 +160,10 @@ class LocalGraph(nn.Module):
     def all_pairs_shortest_path_length_parallel(self, graph, cutoff=None, num_workers=1):
         nodes = list(graph.nodes)
         random.shuffle(nodes)
+        if len(nodes) < 50:
+            num_workers = int(num_workers / 4)
+        elif len(nodes) < 400:
+            num_workers = int(num_workers / 2)
         num_workers = 1  # windows
         pool = mp.Pool(processes=num_workers)
         results = self.single_source_shortest_path_length_range(graph, nodes, cutoff)
@@ -185,7 +185,6 @@ class LocalGraph(nn.Module):
         n = num_nodes
         dists_dict = self.all_pairs_shortest_path_length_parallel(graph,
                                                                   cutoff=approximate if approximate > 0 else None)
-
         dists_array = np.zeros((n, n), dtype=np.int8)
 
         for i, node_i in enumerate(graph.nodes()):
@@ -202,7 +201,6 @@ class LocalGraph(nn.Module):
         rows = adj._indices()[0, :]
         cols = adj._indices()[1, :]
 
-
         tmp_rows = np.random.choice(rows.cpu(), size=[int(len(rows) * args.addRate)])
         tmp_cols = np.random.choice(cols.cpu(), size=[int(len(cols) * args.addRate)])
 
@@ -211,7 +209,6 @@ class LocalGraph(nn.Module):
 
         newRows = t.cat([add_rows, add_cols, t.arange(args.user + args.item).cuda(), rows])
         newCols = t.cat([add_cols, add_rows, t.arange(args.user + args.item).cuda(), cols])
-
 
         ratings_keep = np.array(t.ones_like(t.tensor(newRows.cpu())))
         adj_mat = sp.csr_matrix((ratings_keep, (newRows.cpu(), newCols.cpu())),
@@ -254,7 +251,7 @@ class RandomMaskSubgraphs(nn.Module):
         else:
             att_f = att_edge
             att_f[att_f > 3] = 3
-            att_edge = 1.0 / (np.exp(np.array(att_f.detach().cpu() + 1E-8)))
+            att_edge = 1.0 / (np.exp(np.array(att_f.detach().cpu() + 1E-8)))  # 基于mlp可以去除
         att_f = att_edge / att_edge.sum()
         keep_index = np.random.choice(np.arange(len(users_up.cpu())), int(len(users_up.cpu()) * args.sub),
                                       replace=False, p=att_f)
@@ -281,7 +278,6 @@ class RandomMaskSubgraphs(nn.Module):
         rows = t.cat([t.arange(args.user + args.item).cuda(), rows])
         cols = t.cat([t.arange(args.user + args.item).cuda(), cols])
 
-
         ratings_keep = np.array(t.ones_like(t.tensor(rows.cpu())))
         adj_mat = sp.csr_matrix((ratings_keep, (rows.cpu(), cols.cpu())),
                                 shape=(self.num_users + self.num_items, self.num_users + self.num_items))
@@ -304,10 +300,8 @@ class RandomMaskSubgraphs(nn.Module):
         att_f = 1.0 / (np.exp(np.array(att_f.detach().cpu() + 1E-8)))
         att_f1 = att_f / att_f.sum()
 
-
         keep_index = np.random.choice(np.arange(len(users_up.cpu())), int(len(users_up.cpu()) * args.keepRate),
                                           replace=False, p=att_f1)
-
         keep_index.sort()
         rows = users_up[keep_index]
         cols = items_up[keep_index]
@@ -331,7 +325,7 @@ class RandomMaskSubgraphs(nn.Module):
         ratings_keep = np.array(t.ones_like(t.tensor(rows.cpu())))
         adj_mat = sp.csr_matrix((ratings_keep, (rows.cpu(), cols.cpu())),
                                 shape=(self.num_users + self.num_items, self.num_users + self.num_items))
-        # normalize adjcency matrix
+
         rowsum = np.array(adj_mat.sum(1))
         d_inv = np.power(rowsum, -0.5).flatten()
         d_inv[np.isinf(d_inv)] = 0.
@@ -344,7 +338,7 @@ class RandomMaskSubgraphs(nn.Module):
         drop_row_ids = users_up[drop_edges]
         drop_col_ids = items_up[drop_edges]
 
-        ext_rows = np.random.choice(rows.cpu(), size=[int(len(drop_row_ids) * args.ext)])  # 添加额外的边
+        ext_rows = np.random.choice(rows.cpu(), size=[int(len(drop_row_ids) * args.ext)])
         ext_cols = np.random.choice(cols.cpu(), size=[int(len(drop_col_ids) * args.ext)])
 
         ext_cols = t.tensor(ext_cols).to(self.device)
@@ -367,7 +361,6 @@ class RandomMaskSubgraphs(nn.Module):
         newCols = hashVal % (args.user + args.item)
         newRows = ((hashVal - newCols) / (args.user + args.item)).long()
 
-
         decoderAdj = t.sparse.FloatTensor(t.stack([newRows, newCols], dim=0), t.ones_like(newRows).cuda().float(),
                                           adj.shape)
 
@@ -375,3 +368,6 @@ class RandomMaskSubgraphs(nn.Module):
         cmp = self.create_sub_adj(adj, att_edge, False)
 
         return encoderAdj, decoderAdj, sub, cmp
+
+
+

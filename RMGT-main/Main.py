@@ -1,11 +1,9 @@
 import torch
-import torch as t
 import Utils.TimeLogger as logger
 from Utils.TimeLogger import log
 from Params import args
 from Model import Model, RandomMaskSubgraphs, LocalGraph, GTLayer
 from DataHandler import DataHandler
-import numpy as np
 import pickle
 from Utils.Utils import *
 from Utils.Utils import contrast
@@ -48,6 +46,7 @@ class Coach:
             stloc = 0
             log('Model Initialized')
         bestRes = None
+        result = []
         for ep in range(stloc, args.epoch):
             tstFlag = (ep % args.tstEpoch == 0)
             reses = self.trainEpoch()
@@ -56,9 +55,12 @@ class Coach:
                 reses = self.testEpoch()
                 log(self.makePrint('Test', ep, reses, tstFlag))
                 self.saveHistory()
+                result.append(reses)
                 bestRes = reses if bestRes is None or reses['Recall'] > bestRes['Recall'] else bestRes
             print()
         reses = self.testEpoch()
+        result.append(reses)
+        torch.save(result, "Saeg_result.pkl")
         log(self.makePrint('Test', args.epoch, reses, True))
         log(self.makePrint('Best Result', args.epoch, bestRes, True))
         self.saveHistory()
@@ -75,7 +77,6 @@ class Coach:
         trnLoader.dataset.negSampling()
         epLoss, epPreLoss = 0, 0
         steps = trnLoader.dataset.__len__() // args.batch
-        # ==================
         self.handler.preSelect_anchor_set()
         for i, tem in enumerate(trnLoader):
             if i % args.fixSteps == 0:
@@ -93,14 +94,13 @@ class Coach:
             posEmbeds = itmEmbeds[poss]
             negEmbeds = itmEmbeds[negs]
 
-
             usrEmbeds2 = subLst[:args.user]
             itmEmbeds2 = subLst[args.user:]
             ancEmbeds2 = usrEmbeds2[ancs]
             posEmbeds2 = itmEmbeds2[poss]
 
             bprLoss = (-t.sum(ancEmbeds * posEmbeds, dim=-1)).mean()
-
+            #
             scoreDiff = pairPredict(ancEmbeds2, posEmbeds2, negEmbeds)
             bprLoss2 = - (scoreDiff).sigmoid().log().sum() / args.batch
 
@@ -110,7 +110,6 @@ class Coach:
                 ancs,
                 usrEmbeds,
                 itmEmbeds) + args.ctra*contrastNCE(ancs, subLst, cList)
-
             loss = bprLoss + regLoss + contrastLoss + args.b2*bprLoss2
 
             epLoss += loss.item()
@@ -197,6 +196,8 @@ if __name__ == '__main__':
     logger.saveDefault = True
 
     log('Start')
+    if t.cuda.is_available():
+        print("using cuda")
     handler = DataHandler()
     handler.LoadData()
     log('Load Data')
