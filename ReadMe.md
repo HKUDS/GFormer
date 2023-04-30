@@ -33,11 +33,9 @@ We utilize three datasets for evaluating RMGT: <i>Yelp, Ifashion, </i>and <i>Las
 |Amazon |$1,889$|$15,376$|$51,987$|$1.8\times 10^{-3}$|
 
 
-</p>
-<h2>How to Run the Code</h2>
-<p>Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train RMGT on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
+## How to Run the Code
+Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train RMGT on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
 
-</p>
 <ul>
 <li>Yelp<pre><code>python Main.py --data yelp --reg 1e-4 --ssl_reg 1 --gcn 3 --ctra 1e-3 --b2 1 --pnn 1 --keepRate 0.9</code></pre>
 </li>
