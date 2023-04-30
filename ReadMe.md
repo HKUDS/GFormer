@@ -7,7 +7,7 @@
 </p>
 <h2>Introduction</h2>
 <p>Contrastive methods currently have become the most successful graph-based collaborative filtering models, which follow the principle of mutual information maximization, to augment recommender systems with self-supervised information. Essentially, high-quality
-data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models hight rely on the handcrafted design of contrastive views for augmentation, which may
+data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models highly rely on the handcrafted design of contrastive views for augmentation, which may
 result in the loss of important sementice knowledge or mislead the self-supervision process with noisy signals. In this work, we aim to 
 explore the augmentdation mechanism without the heuristic-based contrastive view generation by answering the question: What information should we preserve as important self-supervision signals?
 we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameterized collaborative rationale discovery to distill informative user-item interaction patterns for selective augmentation.
