@@ -24,7 +24,7 @@ class DataHandler:
         self.trnfile = predir + 'trnMat.pkl'
         self.tstfile = predir + 'tstMat.pkl'
 
-    def single_source_shortest_path_length_range(self, graph, node_range, cutoff):
+    def single_source_shortest_path_length_range(self, graph, node_range, cutoff):  # 最短路径算法
         dists_dict = {}
         for node in node_range:
             dists_dict[node] = nx.single_source_shortest_path_length(graph, node, cutoff=None)
@@ -32,9 +32,8 @@ class DataHandler:
 
     def get_random_anchorset(self):
         n = self.num_nodes
-
         annchorset_id = np.random.choice(n, size=args.anchor_set_num, replace=False)
-
+        # 使用Dijkstra算法来计算当前的节点对于每个点的最短距离。
         graph = nx.Graph()
         graph.add_nodes_from(np.arange(args.user + args.item))
 
@@ -52,11 +51,14 @@ class DataHandler:
         for i, node_i in enumerate(annchorset_id):
             shortest_dist = dicts_dict[node_i]
             for j, node_j in enumerate(graph.nodes()):
-                dist = shortest_dist.get(node_j, -1)
+                dist = shortest_dist.get(node_j, -1)  # 如果无值返回-1
                 if dist != -1:
+                    # dists_array[i, j] = 1 / (dist + 1)
                     dists_array[i, j] = 1 / (dist + 1)
-        self.dists_array = dists_array
+        self.dists_array = dists_array # 256*69534
         self.anchorset_id = annchorset_id #
+        # dist_array_mat = sp.csr_matrix((values, (rows, cols)), shape=(self.num_nodes, self.num_nodes))
+        # dist_array_mat_id = sp.csr_matrix((values2, (rows, cols)), shape=(self.num_nodes, self.num_nodes))
 
     def preSelect_anchor_set(self):
         self.num_nodes = args.user + args.item
@@ -77,7 +79,6 @@ class DataHandler:
         return mat.dot(dInvSqrtMat).transpose().dot(dInvSqrtMat).tocoo()
 
     def makeTorchAdj(self, trainMat):
-        # addRate
 
         a = sp.csr_matrix((args.user, args.user))
         b = sp.csr_matrix((args.item, args.item))
