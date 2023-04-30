@@ -1,20 +1,17 @@
-<body marginheight="0"><h1>Masked Graph Transformer for Recommendation</h1>
+## Masked Graph Transformer for Recommendation
 <p>This repository contains pyTorch code and datasets for the paper:
 
-</p>
-<blockquote>
-<p>Chaoliu li,  Chao Huang, Lianghao Xia, Xubin Ren, Yaowen Ye, and Yong Xu (2023)
-</p>
-<h2>Introduction</h2>
-<p>Contrastive methods currently have become the most successful graph-based collaborative filtering models, which follow the principle of mutual information maximization, to augment recommender systems with self-supervised information. Essentially, high-quality data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models highly rely on the handcrafted design of contrastive views for augmentation, which may result in the loss of important sementice knowledge or mislead the self-supervision process with noisy signals. In this work, we aim to explore the augmentdation mechanism without the heuristic-based contrastive view generation by answering the question: What information should we preserve as important self-supervision signals? we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameterized collaborative rationale discovery to distill informative user-item interaction patterns for selective augmentation.
+# Introduction
+Contrastive methods currently have become the most successful graph-based collaborative filtering models, which follow the principle of mutual information maximization, to augment recommender systems with self-supervised information. Essentially, high-quality data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models highly rely on the handcrafted design of contrastive views for augmentation, which may result in the loss of important sementice knowledge or mislead the self-supervision process with noisy signals. bindly corrupting graph topological structures will unavoidly cause the loss of important relations between users and items, such as the unique user interactions patterns, or limited labels of long-tail items(as illustrated in Figure bewlow)
 
-</p>
-  
-</blockquote>
-<h2>Environment</h2>
-<p>The codes of RMGT are implemented and tested under the following development environment:
-</p>
-  
+<img src='fig/intro_back.jpg'/>
+
+  In this work,  we propose a new recommender system,Ration-aware Masked Graph Transformer(RMGT), to automatically distill masked self-supervised signals with task-adaptive collaborative rationales. We take inspiration from ration discovery to bridge the gap between graph masked autoencoder with task-adaptive augmentation. To be specific, we develop a topology-aware graph transformer to be integrated into the user-item interaction modeling, to enable collaborative rationale discovery. The overview of our model architecture  is given below.
+
+<img src='fig/framework.jpg'>
+
+Environment
+The codes of RMGT are implemented and tested under the following development environment:
   
 <p>PyTorch:
 
