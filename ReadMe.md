@@ -16,7 +16,7 @@ we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameter
 </p>
 </blockquote>
 <h2>Environment</h2>
-<p>The codes of HCCF are implemented and tested under the following development environment:
+<p>The codes of RMGT are implemented and tested under the following development environment:
 
 
 </p>
