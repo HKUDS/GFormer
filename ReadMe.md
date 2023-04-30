@@ -6,20 +6,16 @@
 <p>Chaoliu li,  Chao Huang, Lianghao Xia, Xubin Ren, Yaowen Ye, and Yong Xu (2023)
 </p>
 <h2>Introduction</h2>
-<p>Contrastive methods currently have become the most successful graph-based collaborative filtering models, which follow the principle of mutual information maximization, to augment recommender systems with self-supervised information. Essentially, high-quality
-data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models highly rely on the handcrafted design of contrastive views for augmentation, which may
-result in the loss of important sementice knowledge or mislead the self-supervision process with noisy signals. In this work, we aim to 
-explore the augmentdation mechanism without the heuristic-based contrastive view generation by answering the question: What information should we preserve as important self-supervision signals?
-we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameterized collaborative rationale discovery to distill informative user-item interaction patterns for selective augmentation.
-
+<p>Contrastive methods currently have become the most successful graph-based collaborative filtering models, which follow the principle of mutual information maximization, to augment recommender systems with self-supervised information. Essentially, high-quality data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models highly rely on the handcrafted design of contrastive views for augmentation, which may result in the loss of important sementice knowledge or mislead the self-supervision process with noisy signals. In this work, we aim to explore the augmentdation mechanism without the heuristic-based contrastive view generation by answering the question: What information should we preserve as important self-supervision signals? we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameterized collaborative rationale discovery to distill informative user-item interaction patterns for selective augmentation.
 
 </p>
+  
 </blockquote>
 <h2>Environment</h2>
 <p>The codes of RMGT are implemented and tested under the following development environment:
-
-
 </p>
+  
+  
 <p>PyTorch:
 
 </p>
@@ -30,8 +26,14 @@ we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameter
 <li>scipy=1.9.0</li>
 <li>networkx = 2.8.6</li>
 </ul>
-<h2>Datasets</h2>
-<p>We utilized three datasets to evaluate : <i>Yelp, Ifashion, </i>and <i>LastFm</i>. Following the common settings of implicit feedback, if user $u_i$ has rated item $v_j$, then the element $(u_i, v_j)$ is set as 1, otherwise 0. We filtered out users and items with too few interactions. The datasets are divided into training set, validation set and testing set by 70:5:25
+  
+## Datasets
+We utilize three datasets for evaluating RMGT: <i>Yelp, Ifashion, </i>and <i>Lastfm</i>. Note that compared to the data used in our previous works, in this work we utilize a more sparse version of the three datasets, to increase the difficulty of recommendation task. Our evaluation follows the common implicit feedback paradigm. The datasets are divided into training set, validation set and test set by 70:5:25.
+| Dataset | \# Users | \# Items | \# Interactions | Interaction Density |
+|:-------:|:--------:|:--------:|:---------------:|:-------:|
+|Yelp   |$42,712$|$26,822$|$182,357$|$1.6\times 10^{-4}$|
+|Ifashion|$31,668$|$38,048$|$618,629$|$5.1\times 10^{-4}$|
+|Amazon |$1,889$|$15,376$|$51,987$|$1.8\times 10^{-3}$|
 
 
 </p>
