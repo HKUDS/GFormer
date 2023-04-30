@@ -36,7 +36,7 @@ we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameter
 
 </p>
 <h2>How to Run the Code</h2>
-<p>Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train HCCF on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
+<p>Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train RMGT on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
 
 </p>
 <ul>
