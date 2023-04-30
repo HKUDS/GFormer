@@ -42,9 +42,9 @@ we propose Rationale-aware Masked Graph Transformer(RMGT) which offers parameter
 <ul>
 <li>Yelp<pre><code>python Main.py --data yelp --reg 1e-4 --ssl_reg 1 --gcn 3 --ctra 1e-3 --b2 1 --pnn 1 --keepRate 0.9</code></pre>
 </li>
-<li>MovieLens<pre><code>python Main.py --data ifashion --reg 1e-5 --ssl_reg 1 --gcn 2 --ctra 1e-3 -- b2 1 --pnn 1 --keepRate 0.9</code></pre>
+<li>Ifashion<pre><code>python Main.py --data ifashion --reg 1e-5 --ssl_reg 1 --gcn 2 --ctra 1e-3 -- b2 1 --pnn 1 --keepRate 0.9</code></pre>
 </li>
-<li>Amazon<pre><code>python Main.py --data lastfm --reg 1e-4 --ssl_reg 1 --gcn 2 --ctra 1e-3 --b2 1e-6 --pnn2 --keepRate 0.9</code></pre>
+<li>Lastfm<pre><code>python Main.py --data lastfm --reg 1e-4 --ssl_reg 1 --gcn 2 --ctra 1e-3 --b2 1e-6 --pnn2 --keepRate 0.9</code></pre>
 </li>
 </ul>
 </body></html>
