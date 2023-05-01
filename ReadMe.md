@@ -10,7 +10,7 @@ Contrastive methods currently have become the most successful graph-based collab
 
 <img src='fig/framework.jpg'>
 
-Environment
+## Environment
 The codes of RMGT are implemented and tested under the following development environment:
   
 <p>PyTorch:
