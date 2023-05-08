@@ -1,7 +1,7 @@
 # Graph Transformer for Recommendation
 This is the PyTorch implementation by <a href='https://github.com/Re-bin'>@Re-bin</a> for DCCF model proposed in this paper:
 
- >**Disentangled Contrastive Collaborative Filtering**  
+ >**Graph Transformer for Recommendation**  
  > Chaoliu li, Lianghao Xia, Xubin Ren, Yaowen Ye, Yong Xu, Chao Huang*\
  >*SIGIR 2023*
 
@@ -42,11 +42,11 @@ We utilize three datasets for evaluating RMGT: <i>Yelp, Ifashion, </i>and <i>Las
 Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train RMGT on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
 
 <ul>
-<li>Yelp<pre><code>python Main.py --data yelp --reg 1e-4 --ssl_reg 1 --gcn 3 --ctra 1e-3 --b2 1 --pnn 1 --keepRate 0.9</code></pre>
+<li>Yelp<pre><code>python Main.py --data yelp --reg 1e-4 --ssl_reg 1 --gcn 3 --ctra 1e-3 --b2 1 --pnn 1</code></pre>
 </li>
-<li>Ifashion<pre><code>python Main.py --data ifashion --reg 1e-5 --ssl_reg 1 --gcn 2 --ctra 1e-3 --b2 1 --pnn 1 --keepRate 0.9</code></pre>
+<li>Ifashion<pre><code>python Main.py --data ifashion --reg 1e-5 --ssl_reg 1 --gcn 2 --ctra 1e-3 --b2 1 --pnn 1</code></pre>
 </li>
-<li>Lastfm<pre><code>python Main.py --data lastfm --reg 1e-4 --ssl_reg 1 --gcn 2 --ctra 1e-3 --b2 1e-6 --pnn2 --keepRate 0.9</code></pre>
+<li>Lastfm<pre><code>python Main.py --data lastfm --reg 1e-4 --ssl_reg 1 --gcn 2 --ctra 1e-3 --b2 1e-6 --pnn2</code></pre>
 </li>
 </ul>
 </body></html>
