@@ -1,5 +1,5 @@
 # Graph Transformer for Recommendation
-This is the PyTorch implementation by <a href='https://github.com/Re-bin'>@Re-bin</a> for DCCF model proposed in this paper:
+This is the PyTorch implementation for GTR model proposed in this paper:
 
  >**Graph Transformer for Recommendation**  
  > Chaoliu li, Lianghao Xia, Xubin Ren, Yaowen Ye, Yong Xu, Chao Huang*\
