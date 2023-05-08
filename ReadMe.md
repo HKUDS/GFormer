@@ -1,4 +1,4 @@
-# Masked Graph Transformer for Recommendation
+# Graph Transformer for Recommendation
 <p>This repository contains pyTorch code and datasets for the paper:
 
 ## Introduction
