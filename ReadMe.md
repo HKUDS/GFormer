@@ -1,5 +1,5 @@
 # Graph Transformer for Recommendation
-This is the PyTorch implementation for GTR model proposed in this paper:
+This is the PyTorch implementation for GFormer model proposed in this paper:
 
  >**Graph Transformer for Recommendation**  
  > Chaoliu li, Lianghao Xia, Xubin Ren, Yaowen Ye, Yong Xu, Chao Huang*\
@@ -15,7 +15,7 @@ Contrastive methods currently have become the most successful graph-based collab
 <img src='fig/framework.jpg'>
 
 ## Environment
-The codes of RMGT are implemented and tested under the following development environment:
+The codes of GFormer are implemented and tested under the following development environment:
   
 <p>PyTorch:
 
@@ -38,7 +38,7 @@ We utilize three datasets for evaluating RMGT: <i>Yelp, Ifashion, </i>and <i>Las
 
 
 ## How to Run the Code
-Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train RMGT on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
+Please unzip the datasets first. Also you need to create the <code>History/</code> and the <code>Models/</code> directories. The command to train GFormer on the Yelp/Ifashion/Lastfm dataset is as follows. The commands specify the hyperparameter settings that generate the reported results in the paper.
 
 <ul>
 <li>Yelp<pre><code>python Main.py --data yelp --reg 1e-4 --ssl_reg 1 --gcn 3 --ctra 1e-3 --b2 1 --pnn 1</code></pre>
