@@ -4,7 +4,7 @@ This is the PyTorch implementation for GFormer model proposed in this paper:
  >**Graph Transformer for Recommendation**  
  > Chaoliu li, Lianghao Xia, Xubin Ren, Yaowen Ye, Yong Xu, Chao Huang*\
  >*SIGIR 2023*
-
+ 
 ## Introduction
 Contrastive methods currently have become the most successful graph-based collaborative filtering models, which follow the principle of mutual information maximization, to augment recommender systems with self-supervised information. Essentially, high-quality data augmentation with revelant contrastive pretext tasks are necessary for performace improvement. However, to our best knowledge, most existing contrastive models highly rely on the handcrafted design of contrastive views for augmentation, which may result in the loss of important sementice knowledge or mislead the self-supervision process with noisy signals. bindly corrupting graph topological structures will unavoidly cause the loss of important relations between users and items, such as the unique user interactions patterns, or limited labels of long-tail items(as illustrated in Figure bewlow)
 
