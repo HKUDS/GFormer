@@ -10,7 +10,7 @@ Contrastive methods currently have become the most successful graph-based collab
 
 <img src='fig/intro_back.jpg'/>
 
-  In this work,  we propose a new recommender system,Ration-aware Masked Graph Transformer(RMGT), to automatically distill masked self-supervised signals with task-adaptive collaborative rationales. We take inspiration from ration discovery to bridge the gap between graph masked autoencoder with task-adaptive augmentation. To be specific, we develop a topology-aware graph transformer to be integrated into the user-item interaction modeling, to enable collaborative rationale discovery. The overview of our model architecture  is given below.
+  In this work,  we propose a new recommender system,Ration-aware Graph Transformer for Recommendation(GFormer), to automatically distill masked self-supervised signals with task-adaptive collaborative rationales. We take inspiration from ration discovery to bridge the gap between graph masked autoencoder with task-adaptive augmentation. To be specific, we develop a topology-aware graph transformer to be integrated into the user-item interaction modeling, to enable collaborative rationale discovery. The overview of our model architecture  is given below.
 
 <img src='fig/framework.jpg'>
 
@@ -29,7 +29,7 @@ The codes of GFormer are implemented and tested under the following development 
 </ul>
   
 ## Datasets
-We utilize three datasets for evaluating RMGT: <i>Yelp, Ifashion, </i>and <i>Lastfm</i>. Note that compared to the data used in our previous works, in this work we utilize a more sparse version of the three datasets, to increase the difficulty of recommendation task. Our evaluation follows the common implicit feedback paradigm. The datasets are divided into training set, validation set and test set by 70:5:25.
+We utilize three datasets for evaluating GFormer: <i>Yelp, Ifashion, </i>and <i>Lastfm</i>. Note that compared to the data used in our previous works, in this work we utilize a more sparse version of the three datasets, to increase the difficulty of recommendation task. Our evaluation follows the common implicit feedback paradigm. The datasets are divided into training set, validation set and test set by 70:5:25.
 | Dataset | \# Users | \# Items | \# Interactions | Interaction Density |
 |:-------:|:--------:|:--------:|:---------------:|:-------:|
 |Yelp   |$42,712$|$26,822$|$182,357$|$1.6\times 10^{-4}$|
