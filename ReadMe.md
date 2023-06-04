@@ -2,7 +2,7 @@
 This is the PyTorch implementation for GFormer model proposed in this paper:
 
  >**Graph Transformer for Recommendation**  
- > Chaoliu li, Lianghao Xia, Xubin Ren, Yaowen Ye, Yong Xu, Chao Huang*\
+ > Chaoliu Li, Lianghao Xia, Xubin Ren, Yaowen Ye, Yong Xu, Chao Huang*\
  >*SIGIR 2023*
  
 ## Introduction
