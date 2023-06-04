@@ -34,7 +34,7 @@ We utilize three datasets for evaluating GFormer: <i>Yelp, Ifashion, </i>and <i>
 |:-------:|:--------:|:--------:|:---------------:|:-------:|
 |Yelp   |$42,712$|$26,822$|$182,357$|$1.6\times 10^{-4}$|
 |Ifashion|$31,668$|$38,048$|$618,629$|$5.1\times 10^{-4}$|
-|Amazon |$1,889$|$15,376$|$51,987$|$1.8\times 10^{-3}$|
+|LastFm |$1,889$|$15,376$|$51,987$|$1.8\times 10^{-3}$|
 
 
 ## How to Run the Code
