@@ -8,10 +8,6 @@ This is the PyTorch implementation for GFormer model proposed in this paper:
 ## Introduction
 This paper presents a novel approach to representation learning in recommender systems by integrating generative self-supervised learning with graph transformer architecture. We highlight the importance of high-quality data augmentation with relevant self-supervised pretext tasks for improving performance. Towards this end, we propose a new approach that automates the self-supervision augmentation process through a rationale-aware generative SSL that distills informative user-item interaction patterns. The proposed recommender with Graph Transformer (GFormer) that offers parameterized collaborative rationale discovery for selective augmentation while preserving global-aware user-item relationships. In GFormer, we allow the rationale-aware SSL to inspire graph collaborative filtering with task-adaptive invariant rationalization in graph transformer. The experimental results reveal that our GFormer has the capability to consistently improve the performance over baselines on different datasets. Several in-depth experiments further investigate the invariant rationale-aware augmentation from various aspects.
 
-<img src='fig/intro_back.jpg'/>
-
-  In this work,  we propose a new recommender system,Ration-aware Graph Transformer for Recommendation(GFormer), to automatically distill masked self-supervised signals with task-adaptive collaborative rationales. We take inspiration from ration discovery to bridge the gap between graph masked autoencoder with task-adaptive augmentation. To be specific, we develop a topology-aware graph transformer to be integrated into the user-item interaction modeling, to enable collaborative rationale discovery. The overview of our model architecture  is given below.
-
 <img src='fig/framework.jpg'>
 
 ## Environment
