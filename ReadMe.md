@@ -45,3 +45,15 @@ Please unzip the datasets first. Also you need to create the <code>History/</cod
 </li>
 </ul>
 </body></html>
+
+## Citing our paper
+Please kindly cite our paper if you find this paper and the codes helpful.
+```
+@article{Li2023GraphTF,
+  title={Graph Transformer for Recommendation},
+  author={Chao Li and Lianghao Xia and Xubin Ren and Yaowen Ye and Yong Xu and Chao Huang},
+  journal={Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  year={2023},
+  url={https://api.semanticscholar.org/CorpusID:259075673}
+}
+```
